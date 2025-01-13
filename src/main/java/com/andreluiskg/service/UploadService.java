@@ -39,7 +39,8 @@ public class UploadService {
 						.split(";")[2].split("=")[1].trim().replaceAll("\"", ""); // Obtém o nome do arquivo
 				sourceName = input.getFormDataPart("sourceName", String.class, null);
 				userName = input.getFormDataPart("userName", String.class, null);
-				LOGGER.info("\n***fileName = " + fileName + ", sourceName = " + sourceName + ", userName = " + userName + "***");
+				int fileSize = uploadedInputStream.available();
+				LOGGER.info("\n*** fileName = " + fileName + ", sourceName = " + sourceName + ", userName = " + userName + ", fileSize(bytes) = " + fileSize + " ***");
 			} else {
 				LOGGER.error("\n***File input stream is missing***");
 			}
