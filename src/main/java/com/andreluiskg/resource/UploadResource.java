@@ -22,10 +22,10 @@ import java.util.logging.Logger;
 @Path("/")
 public class UploadResource {
 
+	private static final Logger LOGGER = Logger.getLogger(UploadResource.class.getName());
+
 	@Inject
 	UploadService greetingService;
-
-	private static final Logger LOGGER = Logger.getLogger(UploadResource.class.getName());
 
 	@GET
 	@Path("/hello")
@@ -51,7 +51,8 @@ public class UploadResource {
 
 			for (InputPart inputPart : inputParts) {
 				// Extract file details
-				String fileName = inputPart.getHeaders().getFirst("Content-Disposition").split(";")[2].split("=")[1].trim().replaceAll("\"", "");
+				String fileName = inputPart.getHeaders().getFirst("Content-Disposition").split(";")[2].split("=")[1]
+						.trim().replaceAll("\"", "");
 				InputStream inputStream = inputPart.getBody(InputStream.class, null);
 				int fileSize = inputStream.available();
 
@@ -68,17 +69,17 @@ public class UploadResource {
 		}
 	}
 
-	@GET
-	@Path("/read-log-messages")
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response readAndLogMessages() {
-		messageClient.readMessagesFromQueue();
-		return Response.ok("Reading and logging messages from RabbitMQ...").build();
-	}
+//	@GET
+//	@Path("/read-log-messages")
+//	@Produces(MediaType.TEXT_PLAIN)
+//	public Response readAndLogMessages() {
+//		messageClient.readMessagesFromQueue();
+//		return Response.ok("Reading and logging messages from RabbitMQ...").build();
+//	}
 
 }
 
 /**
- * Exemplo de comando curl para enviar um arquivo para o endpoint /logfile:
- * curl -X POST -F "file=@caminho/do/arquivo" http://localhost:8081/logfile
+ * Exemplo de comando curl para enviar um arquivo para o endpoint /logfile: curl
+ * -X POST -F "file=@caminho/do/arquivo" http://localhost:8081/logfile
  */

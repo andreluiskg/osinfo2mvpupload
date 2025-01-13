@@ -17,9 +17,9 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 @ApplicationScoped
-public class FileUploadClient {
+public class FileServerClient {
 
-	private static final Logger LOGGER = Logger.getLogger(FileUploadClient.class);
+	private static final Logger LOGGER = Logger.getLogger(FileServerClient.class);
 
 	@Inject
 	MinioClient minioClient;
@@ -42,7 +42,7 @@ public class FileUploadClient {
 
 	public boolean uploadToMinIO(InputStream uploadedInputStream, String fileName) {
 		try {
-			MinioClient minioClient = MinioClient.builder().endpoint(minioUrl) // Ensure endpoint is set
+			minioClient = MinioClient.builder().endpoint(minioUrl) // Ensure endpoint is set
 					.credentials(minioAccessKey, minioSecretKey).build();
 
 			// Convert InputStream to byte array
@@ -75,7 +75,7 @@ public class FileUploadClient {
 
 	public void deleteFromMinIO(String fileName) {
 		try {
-			MinioClient minioClient = MinioClient.builder().endpoint(minioUrl)
+			minioClient = MinioClient.builder().endpoint(minioUrl)
 					.credentials(minioAccessKey, minioSecretKey).build();
 			minioClient.removeObject(RemoveObjectArgs.builder().bucket(minioBucketName).object(fileName).build());
 			LOGGER.info("\n***File deleted from MinIO: " + fileName + "***");
